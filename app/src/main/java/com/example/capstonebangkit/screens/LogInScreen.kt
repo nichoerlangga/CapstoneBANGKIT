@@ -20,11 +20,10 @@ import com.example.capstonebangkit.components.ButtonComponent
 import com.example.capstonebangkit.components.CheckBoxComponent
 import com.example.capstonebangkit.components.HeadingTextComponent
 import com.example.capstonebangkit.components.MyTextField
-import com.example.capstonebangkit.components.NormalTextComponent
 import com.example.capstonebangkit.components.PasswordTextFieldComponent
 
 @Composable
-fun SignUpScreen() {
+fun LoginScreen() {
     Surface (
         color = Color.White,
         modifier = Modifier.fillMaxSize().background(Color.White).padding(28.dp)
@@ -39,24 +38,19 @@ fun SignUpScreen() {
                     .height(200.dp) // Adjust height as needed
             )
             Spacer(modifier = Modifier.height(40.dp))
-            HeadingTextComponent(value = "Create an Account")
+            HeadingTextComponent(value = "Login to Your Account")
             Spacer(modifier = Modifier.height(20.dp))
-            MyTextField(labelValue = "Full Name", painter = painterResource(id = R.drawable.user))
             MyTextField(labelValue = "Email", painter = painterResource(id = R.drawable.email))
             PasswordTextFieldComponent(labelValue = "Password", painter = painterResource(id = R.drawable.password))
-            PasswordTextFieldComponent(
-                labelValue = "Confirm Password",
-                painter = painterResource(id = R.drawable.password)
-            )
             CheckBoxComponent(value = "By continuing you accept our Terms of Service and Privacy Policy")
             Spacer(modifier = Modifier.height(80.dp))
-            ButtonComponent(value = "Sign Up")
+            ButtonComponent(value = "Log In")
         }
     }
 }
 
 @Preview
 @Composable
-fun DefaultPreviewOfSignUpScreen() {
+fun DefaultPreviewOfLogInScreen() {
     SignUpScreen()
 }

@@ -6,4 +6,11 @@
     <color name="colorAccent">#C58BF2</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGray">#7B6F72</color>
+    <color name="darkgreen">#FF243837</color>
+    <color name="lightgreen">#FFFFFFFF</color>
+    <color name="primaryColor">#FFFE7833</color>
+    <color name="secondaryColor">#FF9DDE8B</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray">#aaaaaa</color>
 </resources>

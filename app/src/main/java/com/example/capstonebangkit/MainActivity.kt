@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.capstonebangkit.app.CapstoneBangkit
+import com.example.capstonebangkit.screens.LoginScreen
 import com.example.capstonebangkit.screens.SignUpScreen
 import com.example.capstonebangkit.ui.theme.CapstoneBANGKITTheme
 
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            SignUpScreen()
+            LoginScreen()
         }
     }
 }
