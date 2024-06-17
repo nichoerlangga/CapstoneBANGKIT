@@ -20,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TextFieldDefaults.outlinedTextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -71,21 +72,23 @@ fun HeadingTextComponent(value:String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTextField(labelValue: String, painter: Painter) {
-    val textValue = remember { mutableStateOf("") }
+fun MyTextField(
+    labelValue: String,
+    painter: Painter,
+    textValue: String,
+    onValueChange: (String) -> Unit
+) {
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp),
-        label = {Text(text = labelValue)},
-        value = textValue.value,
-        colors = outlinedTextFieldColors(
+        label = { Text(text = labelValue) },
+        value = textValue,
+        colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = colorResource(id = R.color.darkgreen),
             focusedLabelColor = colorResource(id = R.color.darkgreen),
             cursorColor = colorResource(id = R.color.darkgreen)
         ),
         keyboardOptions = KeyboardOptions.Default,
-        onValueChange = {
-            textValue.value = it
-        },
+        onValueChange = onValueChange,
         leadingIcon = {
             Icon(
                 painter = painter,
@@ -96,28 +99,28 @@ fun MyTextField(labelValue: String, painter: Painter) {
     )
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordTextFieldComponent(labelValue: String, painter: Painter) {
-    val password = remember { mutableStateOf("") }
-
-    val passwordVisible = remember {
-        mutableStateOf(false)
-    }
+fun PasswordTextFieldComponent(
+    labelValue: String,
+    painter: Painter,
+    passwordValue: String,
+    onPasswordChange: (String) -> Unit
+) {
+    val passwordVisible = remember { mutableStateOf(false) }
 
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp),
-        label = {Text(text = labelValue)},
-        value = password.value,
-        colors = outlinedTextFieldColors(
+        label = { Text(text = labelValue) },
+        value = passwordValue,
+        colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = colorResource(id = R.color.darkgreen),
             focusedLabelColor = colorResource(id = R.color.darkgreen),
             cursorColor = colorResource(id = R.color.darkgreen)
         ),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        onValueChange = {
-            password.value = it
-        },
+        onValueChange = onPasswordChange,
         leadingIcon = {
             Icon(
                 painter = painter,
@@ -132,19 +135,24 @@ fun PasswordTextFieldComponent(labelValue: String, painter: Painter) {
                 painterResource(id = R.drawable.visibility_off)
             }
 
-            var description = if (passwordVisible.value) {
+            val description = if (passwordVisible.value) {
                 "Hide password"
             } else {
                 "Show password"
             }
 
-            IconButton(onClick = { passwordVisible.value = !passwordVisible.value}) {
-                Icon(painter = iconImage, contentDescription = description, modifier = Modifier.size(20.dp))
+            IconButton(onClick = { passwordVisible.value = !passwordVisible.value }) {
+                Icon(
+                    painter = iconImage,
+                    contentDescription = description,
+                    modifier = Modifier.size(20.dp)
+                )
             }
         },
         visualTransformation = if (passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation()
     )
 }
+
 
 @Composable
 fun CheckBoxComponent(value: String) {
@@ -177,19 +185,29 @@ fun CheckBoxComponent(value: String) {
 }
 
 @Composable
-fun ButtonComponent(value: String) {
+fun ButtonComponent(value: String, onClick: () -> Unit) {
     Button(
-        onClick = { /*TODO*/ },
-        modifier = Modifier.fillMaxWidth().heightIn(48.dp),
+        onClick = onClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(48.dp),
         contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(
-            Color.Transparent)
+            Color.Transparent
+        )
     ) {
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(48.dp).background(
-                brush = Brush.horizontalGradient(listOf(colorResource(id = R.color.darkgreen), colorResource(id = R.color.secondaryColor))),
-                shape = RoundedCornerShape(50.dp)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(48.dp)
+                .background(
+                    brush = Brush.horizontalGradient(
+                        listOf(
+                            colorResource(id = R.color.darkgreen),
+                            colorResource(id = R.color.secondaryColor)
+                        )
+                    ),
+                    shape = RoundedCornerShape(50.dp)
                 ),
             contentAlignment = Alignment.Center
         ) {
