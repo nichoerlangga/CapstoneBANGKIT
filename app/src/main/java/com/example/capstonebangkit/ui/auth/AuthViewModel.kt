@@ -25,9 +25,9 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    fun signUp(email: String, password: String, name: String) {
+    fun signUp(email: String, password: String, username: String) {
         viewModelScope.launch {
-            repository.signUp(email, password, name) {
+            repository.signUp(email, password, username) {
                 _signUpResult.postValue(it)
             }
         }

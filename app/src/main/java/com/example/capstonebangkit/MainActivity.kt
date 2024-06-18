@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -16,17 +17,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            AppNavigation()
+            val navController = rememberNavController()
+            AppNavigation(navController)
         }
     }
 }
 
 @Composable
-fun AppNavigation() {
-    val navController = rememberNavController()
+fun AppNavigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "signup") {
         composable("signup") { SignUpScreen(navController = navController) }
-        composable("QuestionOne") { QuestionOne()}
+        composable("QuestionOne") { QuestionOne() }
     }
 }
+
 

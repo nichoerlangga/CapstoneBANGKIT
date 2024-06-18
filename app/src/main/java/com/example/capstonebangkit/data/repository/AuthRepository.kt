@@ -13,24 +13,32 @@ class AuthRepository {
         val request = LoginRequest(email, password)
         api.login(request).enqueue(object : Callback<AuthResponse> {
             override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
-                onResult(response.body())
+                if (response.isSuccessful) {
+                    onResult(response.body())
+                } else {
+                    onResult(null) // Handle unsuccessful response
+                }
             }
 
             override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
-                onResult(null)
+                onResult(null) // Handle failure
             }
         })
     }
 
-    fun signUp(email: String, password: String, name: String, onResult: (AuthResponse?) -> Unit) {
-        val request = SignUpRequest(email, password, name)
+    fun signUp(email: String, password: String, username: String, onResult: (AuthResponse?) -> Unit) {
+        val request = SignUpRequest(email, password, username)
         api.signUp(request).enqueue(object : Callback<AuthResponse> {
             override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
-                onResult(response.body())
+                if (response.isSuccessful) {
+                    onResult(response.body())
+                } else {
+                    onResult(null) // Handle unsuccessful response
+                }
             }
 
             override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
-                onResult(null)
+                onResult(null) // Handle failure
             }
         })
     }
