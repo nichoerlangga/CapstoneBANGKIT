@@ -81,5 +81,5 @@ fun LoginScreen(viewModel: AuthViewModel = AuthViewModel()) {
 @Preview
 @Composable
 fun DefaultPreviewOfLogInScreen() {
-    SignUpScreen()
+    LoginScreen()
 }

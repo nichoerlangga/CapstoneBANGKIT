@@ -7,10 +7,12 @@ import com.example.capstonebangkit.data.model.Questions
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,8 +24,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.capstonebangkit.R
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.launch
 
@@ -59,10 +63,10 @@ fun ImageCarousel(items: List<Questions>, modifier: Modifier = Modifier) {
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Row(modifier = modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
+                    horizontalArrangement = Arrangement.SpaceAround,
                     verticalAlignment = Alignment.CenterVertically) {
                     Text(text = item.title, fontSize = 20.sp, color = Color.Black)
-                    DropdownMenuComponent(options = item.options)
+                    RadioButtonComponent(options = item.options)
                 }
             }
         }
@@ -71,7 +75,7 @@ fun ImageCarousel(items: List<Questions>, modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(16.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Center,
         ) {
             items.forEachIndexed { index, _ ->
                 val color = if (index == pagerState.currentPage) Color.Blue else Color.Gray
@@ -95,14 +99,22 @@ fun ImageCarousel(items: List<Questions>, modifier: Modifier = Modifier) {
                 coroutineScope.launch {
                     pagerState.animateScrollToPage((pagerState.currentPage - 1).coerceAtLeast(0))
                 }
-            }) {
+            },
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = colorResource(id = R.color.darkgreen),
+                    contentColor = colorResource(id = R.color.primaryColor)
+                )
+                ) {
                 Text("Previous")
             }
             Button(onClick = {
                 coroutineScope.launch {
                     pagerState.animateScrollToPage((pagerState.currentPage + 1).coerceAtMost(items.size - 1))
                 }
-            }) {
+            }, colors = ButtonDefaults.buttonColors(
+                backgroundColor = colorResource(id = R.color.darkgreen),
+                contentColor = colorResource(id = R.color.primaryColor)
+            )) {
                 Text("Next")
             }
         }
@@ -110,21 +122,37 @@ fun ImageCarousel(items: List<Questions>, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun DropdownMenuComponent(options: List<String>) {
-    var expanded by remember { mutableStateOf(false) }
-    Box(modifier = Modifier.wrapContentSize(Alignment.TopStart)) {
-        IconButton(onClick = { expanded = true }) {
-            Icon(Icons.Default.MoreVert, contentDescription = "Options Menu")
-        }
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            options.forEach { option ->
-                DropdownMenuItem(onClick = { /* Handle option click */ }) {
-                    Text(text = option)
-                }
+fun RadioButtonComponent(options: List<String>) {
+    var selectedOption by remember { mutableStateOf(options.firstOrNull() ?: "") }
+
+    Column (
+        modifier = Modifier
+            .padding(16.dp),
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.Center
+    ) {
+        options.forEach { option ->
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.clickable { selectedOption = option }
+            ) {
+                RadioButton(
+                    selected = selectedOption == option,
+                    onClick = { selectedOption = option },
+                    colors = RadioButtonDefaults.colors(
+                        selectedColor = colorResource(id = R.color.primaryColor),
+                        unselectedColor = Color.Gray
+                    )
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = option,
+                    style = MaterialTheme.typography.body1
+                )
             }
         }
     }
 }
+
+
+

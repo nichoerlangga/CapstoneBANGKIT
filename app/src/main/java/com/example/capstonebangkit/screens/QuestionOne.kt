@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CarouselPreview() {
+fun QuestionOne() {
     val imageList = listOf(
         Questions(
             image = painterResource(R.drawable.healhub),
@@ -56,5 +56,5 @@ fun CarouselPreview() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewCarousel() {
-    CarouselPreview()
+    QuestionOne()
 }

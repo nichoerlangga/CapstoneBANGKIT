@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
-    private const val BASE_URL = "https://backend-healhub-ckd652fgya-et.a.run.app"
+    private const val BASE_URL = "https://backend-healhub-zbmjd2saea-et.a.run.app"
 
     val api: ApiService by lazy {
         Retrofit.Builder()

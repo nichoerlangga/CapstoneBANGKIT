@@ -21,18 +21,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
+import androidx.navigation.NavHostController
 import com.example.capstonebangkit.R
 import com.example.capstonebangkit.components.ButtonComponent
 import com.example.capstonebangkit.components.CheckBoxComponent
 import com.example.capstonebangkit.components.HeadingTextComponent
 import com.example.capstonebangkit.components.MyTextField
-import com.example.capstonebangkit.components.NormalTextComponent
 import com.example.capstonebangkit.components.PasswordTextFieldComponent
 import com.example.capstonebangkit.ui.auth.AuthViewModel
 
 @Composable
-fun SignUpScreen(viewModel: AuthViewModel = AuthViewModel()) {
+fun SignUpScreen(viewModel: AuthViewModel = AuthViewModel(), navController: NavHostController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var name by remember { mutableStateOf("") }
@@ -87,6 +86,7 @@ fun SignUpScreen(viewModel: AuthViewModel = AuthViewModel()) {
             signUpResult?.let {
                 if (it.token.isNotEmpty()) {
                     Text("Sign Up Successful! Token: ${it.token}")
+                    navController.navigate("QuestionOne")
                 } else {
                     Text("Sign Up Failed")
                 }
