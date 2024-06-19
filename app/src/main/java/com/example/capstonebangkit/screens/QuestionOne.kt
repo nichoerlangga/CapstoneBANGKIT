@@ -21,27 +21,81 @@ fun QuestionOne() {
     val imageList = listOf(
         Questions(
             image = painterResource(R.drawable.healhub),
-            title = "Gatal-gatal"
+            title = listOf(
+                "Gatal - gatal",
+                "Ruam Kulit",
+                "Erupsi Kulit Nodal",
+                "Bersin Terus Menerus",
+                "Menggigil",
+                "Demam",
+                "Nyeri Sendi"
+            )
         ),
         Questions(
             image = painterResource(R.drawable.healhub),
-            title = "Ruam Kulit"
+            title = listOf(
+                "Gatal - gatal",
+                "Ruam Kulit",
+                "Erupsi Kulit Nodal",
+                "Bersin Terus Menerus",
+                "Menggigil",
+                "Demam"
+            )
         ),
         Questions(
             image = painterResource(R.drawable.healhub),
-            title = "Erupsi Kulit"
+            title = listOf(
+                "Gatal - gatal",
+                "Ruam Kulit",
+                "Erupsi Kulit Nodal",
+                "Bersin Terus Menerus",
+                "Menggigil",
+                "Demam"
+            )
         ),
         Questions(
             image = painterResource(R.drawable.healhub),
-            title = "Erupsi Kulit"
+            title = listOf(
+                "Gatal - gatal",
+                "Ruam Kulit",
+                "Erupsi Kulit Nodal",
+                "Bersin Terus Menerus",
+                "Menggigil",
+                "Demam"
+            )
         ),
         Questions(
             image = painterResource(R.drawable.healhub),
-            title = "Erupsi Kulit"
+            title = listOf(
+                "Gatal - gatal",
+                "Ruam Kulit",
+                "Erupsi Kulit Nodal",
+                "Bersin Terus Menerus",
+                "Menggigil",
+                "Demam"
+            )
         ),
         Questions(
             image = painterResource(R.drawable.healhub),
-            title = "Erupsi Kulit"
+            title = listOf(
+                "Gatal - gatal",
+                "Ruam Kulit",
+                "Erupsi Kulit Nodal",
+                "Bersin Terus Menerus",
+                "Menggigil",
+                "Demam"
+            )
+        ),
+        Questions(
+            image = painterResource(R.drawable.healhub),
+            title = listOf(
+                "Gatal - gatal",
+                "Ruam Kulit",
+                "Erupsi Kulit Nodal",
+                "Bersin Terus Menerus",
+                "Menggigil",
+                "Demam"
+            )
         )
     )
     Surface (

@@ -9,7 +9,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -37,38 +40,18 @@ fun ImageCarousel(items: List<Questions>, modifier: Modifier = Modifier) {
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 
-    Column(modifier = modifier.fillMaxWidth(),
+    Column(
+        modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween) {
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
         Spacer(modifier = Modifier.height(10.dp))
         HorizontalPager(
             state = pagerState,
             count = items.size,
-            modifier = Modifier.fillMaxWidth().height(300.dp)
+            modifier = Modifier.fillMaxWidth().height(700.dp),
         ) { page ->
-            val item = items[page]
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Image(
-                    painter = item.image,
-                    contentDescription = "Carousel Image",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(150.dp)
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Row(modifier = modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround,
-                    verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = item.title, fontSize = 20.sp, color = Color.Black)
-                    RadioButtonComponent(options = item.options)
-                }
-            }
+            Question(items[page])
         }
 
         // Optional: Display indicators
@@ -95,26 +78,30 @@ fun ImageCarousel(items: List<Questions>, modifier: Modifier = Modifier) {
                 .padding(top = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Button(onClick = {
-                coroutineScope.launch {
-                    pagerState.animateScrollToPage((pagerState.currentPage - 1).coerceAtLeast(0))
-                }
-            },
+            Button(
+                onClick = {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage((pagerState.currentPage - 1).coerceAtLeast(0))
+                    }
+                },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = colorResource(id = R.color.darkgreen),
                     contentColor = colorResource(id = R.color.primaryColor)
                 )
-                ) {
+            ) {
                 Text("Previous")
             }
-            Button(onClick = {
-                coroutineScope.launch {
-                    pagerState.animateScrollToPage((pagerState.currentPage + 1).coerceAtMost(items.size - 1))
-                }
-            }, colors = ButtonDefaults.buttonColors(
-                backgroundColor = colorResource(id = R.color.darkgreen),
-                contentColor = colorResource(id = R.color.primaryColor)
-            )) {
+            Button(
+                onClick = {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage((pagerState.currentPage + 1).coerceAtMost(items.size - 1))
+                    }
+                },
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = colorResource(id = R.color.darkgreen),
+                    contentColor = colorResource(id = R.color.primaryColor)
+                )
+            ) {
                 Text("Next")
             }
         }
@@ -147,12 +134,51 @@ fun RadioButtonComponent(options: List<String>) {
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = option,
-                    style = MaterialTheme.typography.body1
+                    style = MaterialTheme.typography.body1,
+                    color = Color.White
                 )
             }
         }
     }
 }
 
+@Composable
+fun Question(item: Questions, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
+    ) {
+        Image(
+            painter = item.image,
+            contentDescription = "Carousel Image",
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(150.dp)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
 
-
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth().weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        ) {
+            items(item.title) { title ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(colorResource(id = R.color.darkgreen), RoundedCornerShape(8.dp))
+                        .padding(start = 12.dp)
+                    ,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(text = title, fontSize = 20.sp, color = Color.White)
+                    RadioButtonComponent(options = item.options)
+                }
+                Spacer(modifier = Modifier.height(6.dp))
+            }
+        }
+    }
+}

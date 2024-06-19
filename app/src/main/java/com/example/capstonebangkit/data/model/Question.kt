@@ -6,6 +6,6 @@ val QUESTION_OPTIONS = listOf("Yes", "No")
 
 data class Questions(
     val image: Painter,
-    val title: String,
+    val title: List<String>,
     val options: List<String> = QUESTION_OPTIONS
 )
