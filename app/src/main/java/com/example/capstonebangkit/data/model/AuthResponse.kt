@@ -12,6 +12,7 @@ import retrofit2.Call
 data class LoginRequest(val email: String, val password: String)
 data class SignUpRequest(val email: String, val password: String, val username: String)
 data class AuthResponse(val token: String, val user: User)
+data class inputPrediction(val inputData: List<Int>, val email: String)
 data class User(val id: String, val email: String, val name: String)
 
 

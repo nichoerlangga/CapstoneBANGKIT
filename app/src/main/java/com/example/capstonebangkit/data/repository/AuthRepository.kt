@@ -2,6 +2,8 @@ package com.example.capstonebangkit.data.repository
 
 import com.example.capstonebangkit.data.model.*
 import com.example.capstonebangkit.data.remote.RetrofitInstance
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,5 +43,12 @@ class AuthRepository {
                 onResult(null) // Handle failure
             }
         })
+    }
+
+    suspend fun inputPrediction(answersList: List<Int>, email: String): QuestionsResult {
+        val inputPrediction = inputPrediction(inputData = answersList, email = email)
+        return withContext(Dispatchers.IO) {
+            api.predict(inputPrediction)
+        }
     }
 }

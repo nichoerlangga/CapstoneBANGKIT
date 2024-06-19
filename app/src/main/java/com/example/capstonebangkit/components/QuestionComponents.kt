@@ -1,8 +1,6 @@
 package com.example.capstonebangkit.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import com.example.capstonebangkit.data.model.Questions
 
 import androidx.compose.foundation.Image
@@ -14,31 +12,28 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.capstonebangkit.R
+import com.example.capstonebangkit.ui.auth.QuestionViewModel
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalPagerApi::class)
 @Composable
-fun ImageCarousel(items: List<Questions>, modifier: Modifier = Modifier) {
+fun ImageCarousel(items: List<Questions>, modifier: Modifier = Modifier, viewModel: QuestionViewModel) {
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
+    var answersList = List(70) { 0 }
+    val mutableAnswersList = answersList.toMutableList()
 
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -48,10 +43,15 @@ fun ImageCarousel(items: List<Questions>, modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(10.dp))
         HorizontalPager(
             state = pagerState,
-            count = items.size,
+            count = items.size + 1, // Increase the count by 1 for the additional page
             modifier = Modifier.fillMaxWidth().height(700.dp),
         ) { page ->
-            Question(items[page])
+            if (page < items.size) {
+                Question(items[page], mutableAnswersList, page)
+            } else {
+                answersList = mutableAnswersList.toList()
+                SubmitPage(viewModel.inputPrediction(answersList, "john.tyler@examplepetstore.com")) // Handle the additional page
+            }
         }
 
         // Optional: Display indicators
@@ -60,7 +60,7 @@ fun ImageCarousel(items: List<Questions>, modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
         ) {
-            items.forEachIndexed { index, _ ->
+            (0 until items.size + 1).forEach { index ->
                 val color = if (index == pagerState.currentPage) Color.Blue else Color.Gray
                 Box(
                     modifier = Modifier
@@ -94,7 +94,7 @@ fun ImageCarousel(items: List<Questions>, modifier: Modifier = Modifier) {
             Button(
                 onClick = {
                     coroutineScope.launch {
-                        pagerState.animateScrollToPage((pagerState.currentPage + 1).coerceAtMost(items.size - 1))
+                        pagerState.animateScrollToPage((pagerState.currentPage + 1).coerceAtMost(items.size))
                     }
                 },
                 colors = ButtonDefaults.buttonColors(
@@ -109,10 +109,42 @@ fun ImageCarousel(items: List<Questions>, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun RadioButtonComponent(options: List<String>) {
-    var selectedOption by remember { mutableStateOf(options.firstOrNull() ?: "") }
+fun SubmitPage(viewModel: Unit) {
+    // Define the content of the additional page here
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Spacer(modifier = Modifier.height(50.dp))
+            Image(
+                painter = painterResource(id = R.drawable.healhub),
+                contentDescription = "Carousel Image",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(150.dp)
+            )
 
-    Column (
+            HeadingTextComponent(value = "Are you sure the informations you have entered is correct?")
+            ButtonComponent(value = "Submit") {
+
+            }
+            Spacer(modifier = Modifier.height(50.dp))
+        }
+    }
+}
+
+
+@Composable
+fun RadioButtonComponent(answersList: MutableList<Int>, index: Int, options: List<String>, selectedOption: MutableState<String?>, onOptionSelected: (String) -> Unit) {
+    Column(
         modifier = Modifier
             .padding(16.dp),
         horizontalAlignment = Alignment.Start,
@@ -121,11 +153,18 @@ fun RadioButtonComponent(options: List<String>) {
         options.forEach { option ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.clickable { selectedOption = option }
+                modifier = Modifier.clickable { onOptionSelected(option) }
             ) {
                 RadioButton(
-                    selected = selectedOption == option,
-                    onClick = { selectedOption = option },
+                    selected = selectedOption.value == option,
+                    onClick = {
+                        onOptionSelected(option)
+                        if (option == "Yes") {
+                            answersList[index] = 1
+                        } else {
+                            answersList[index] = 0
+                        }
+                      },
                     colors = RadioButtonDefaults.colors(
                         selectedColor = colorResource(id = R.color.primaryColor),
                         unselectedColor = Color.Gray
@@ -143,7 +182,7 @@ fun RadioButtonComponent(options: List<String>) {
 }
 
 @Composable
-fun Question(item: Questions, modifier: Modifier = Modifier) {
+fun Question(item: Questions, answersList: MutableList<Int>, index : Int, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize(),
@@ -160,22 +199,36 @@ fun Question(item: Questions, modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(16.dp))
 
         LazyColumn(
-            modifier = Modifier.fillMaxWidth().weight(1f),
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-            items(item.title) { title ->
+            items(item.title.value) { title ->
                 Row(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(colorResource(id = R.color.darkgreen), RoundedCornerShape(8.dp))
-                        .padding(start = 12.dp)
-                    ,
+                        .padding(start = 12.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = title, fontSize = 20.sp, color = Color.White)
-                    RadioButtonComponent(options = item.options)
+                    Text(
+                        text = title.question,
+                        fontSize = 20.sp,
+                        color = Color.White,
+                        modifier = Modifier.width(200.dp)
+                    )
+                    RadioButtonComponent(
+                        answersList = answersList,
+                        index = index,
+                        options = item.options,
+                        selectedOption = title.selectedOption,
+                        onOptionSelected = { selectedOption ->
+                            title.selectedOption.value = selectedOption
+                        }
+                    )
                 }
                 Spacer(modifier = Modifier.height(6.dp))
             }
