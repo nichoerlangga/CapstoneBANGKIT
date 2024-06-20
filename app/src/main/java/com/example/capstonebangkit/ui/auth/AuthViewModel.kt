@@ -69,6 +69,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 _loginResult.postValue(it)
                 if (it != null) {
                     _email.postValue(email)
+                    prefsManager.clearEmail()
                     prefsManager.saveEmail(email)  // Save email in SharedPreferences
                 }
             }

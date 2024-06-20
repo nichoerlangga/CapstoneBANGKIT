@@ -181,7 +181,7 @@ fun SignUpScreen(viewModel: AuthViewModel = androidx.lifecycle.viewmodel.compose
             signUpResult?.let { result ->
 //                if (result.token.isNotEmpty()) {
                     Text("Sign Up Successful! Token: ${result.token}")
-                    LaunchedEffect(Unit){navController.navigate("QuestionOne")}
+                    LaunchedEffect(Unit){navController.navigate("homescreen")}
 //                } else {
 //                    Text("Sign Up Failed")
 //                }

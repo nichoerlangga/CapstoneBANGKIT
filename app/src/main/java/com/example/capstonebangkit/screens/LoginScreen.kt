@@ -173,7 +173,7 @@ fun LoginScreen(navController: NavHostController, viewModel: AuthViewModel = vie
             }
             loginResult?.let {
 //                if (it.token.isNotEmpty()) {
-                LaunchedEffect(Unit){navController.navigate("QuestionOne")}
+                LaunchedEffect(Unit){navController.navigate("homescreen")}
 //                } else {
 //                    Text("Login Failed")
 //                }

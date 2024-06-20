@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.capstonebangkit.screens.HomeScreen
 import com.example.capstonebangkit.screens.LoginScreen
 import com.example.capstonebangkit.screens.PredictionScreen
 import com.example.capstonebangkit.screens.QuestionOne
@@ -48,6 +49,9 @@ fun AppNavigation(navController: NavHostController, authViewModel: AuthViewModel
         }
         composable("predictionHistory") {
             PredictionHistoryScreen(navController = navController) // tambahkan viewModel disini
+        }
+        composable("homescreen") {
+            HomeScreen(navController = navController)
         }
     }
 }
