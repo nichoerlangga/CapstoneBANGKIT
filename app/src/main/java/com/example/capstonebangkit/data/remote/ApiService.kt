@@ -31,6 +31,10 @@ interface ApiService {
     @POST("/register")
     fun signUp(@Body request: SignUpRequest): Call<AuthResponse>
 
+//    @POST("/predictions")
+//    fun predict(@Body request: inputPrediction): QuestionsResult
+
     @POST("/predictions")
-    fun predict(@Body request: inputPrediction): QuestionsResult
+    fun predict(@Body request: inputPrediction): Call<QuestionsResult>
+
 }

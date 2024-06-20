@@ -17,103 +17,36 @@ import com.example.capstonebangkit.data.model.Questions
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.capstonebangkit.data.model.Question
+import androidx.navigation.NavHostController
 import com.example.capstonebangkit.ui.auth.QuestionViewModel
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun QuestionOne(viewModel: QuestionViewModel = QuestionViewModel()) {
+fun QuestionOne(viewModel: QuestionViewModel = QuestionViewModel(), navController: NavHostController) {
     val imageList = listOf(
-        Questions(
-            image = painterResource(R.drawable.healhub),
-            title = mutableStateOf (
-                mutableListOf(
-                    Question("Apakah anda mengalami gatal - gatal?"),
-                    Question("Apakah anda mengalami ruam kulit?"),
-                    Question("Apakah anda mengalami erupsi kulit?"),
-                    Question("Apakah anda mengalami bersin terus menerus?"),
-                    Question("Apakah anda mengalami menggigil?"),
-                    Question("Apakah anda mengalami demam?")
-                )
-            )
+        Questions (
+            image = painterResource(id = R.drawable.healhub),
+            title = "Select the first symptom that you have"
         ),
-        Questions(
-            image = painterResource(R.drawable.healhub),
-            title = mutableStateOf (
-                mutableListOf(
-                    Question("Apakah anda mengalami gatal - gatal?"),
-                    Question("Apakah anda mengalami ruam kulit?"),
-                    Question("Apakah anda mengalami erupsi kulit?"),
-                    Question("Apakah anda mengalami bersin terus menerus?"),
-                    Question("Apakah anda mengalami menggigil?"),
-                    Question("Apakah anda mengalami demam?")
-                )
-            )
+        Questions (
+            image = painterResource(id = R.drawable.healhub),
+            title = "Select the second symptom that you have"
         ),
-        Questions(
-            image = painterResource(R.drawable.healhub),
-            title = mutableStateOf (
-                mutableListOf(
-                    Question("Apakah anda mengalami gatal - gatal?"),
-                    Question("Apakah anda mengalami ruam kulit?"),
-                    Question("Apakah anda mengalami erupsi kulit?"),
-                    Question("Apakah anda mengalami bersin terus menerus?"),
-                    Question("Apakah anda mengalami menggigil?"),
-                    Question("Apakah anda mengalami demam?")
-                )
-            )
+        Questions (
+            image = painterResource(id = R.drawable.healhub),
+            title = "Select the third symptom that you have"
         ),
-        Questions(
-            image = painterResource(R.drawable.healhub),
-            title = mutableStateOf (
-                mutableListOf(
-                    Question("Apakah anda mengalami gatal - gatal?"),
-                    Question("Apakah anda mengalami ruam kulit?"),
-                    Question("Apakah anda mengalami erupsi kulit?"),
-                    Question("Apakah anda mengalami bersin terus menerus?"),
-                    Question("Apakah anda mengalami menggigil?"),
-                    Question("Apakah anda mengalami demam?")
-                )
-            )
+        Questions (
+            image = painterResource(id = R.drawable.healhub),
+            title = "Select the fourth symptom that you have"
         ),
-        Questions(
-            image = painterResource(R.drawable.healhub),
-            title = mutableStateOf (
-                mutableListOf(
-                    Question("Apakah anda mengalami gatal - gatal?"),
-                    Question("Apakah anda mengalami ruam kulit?"),
-                    Question("Apakah anda mengalami erupsi kulit?"),
-                    Question("Apakah anda mengalami bersin terus menerus?"),
-                    Question("Apakah anda mengalami menggigil?"),
-                    Question("Apakah anda mengalami demam?")
-                )
-            )
+        Questions (
+            image = painterResource(id = R.drawable.healhub),
+            title = "Select the fifth symptom that you have"
         ),
-        Questions(
-            image = painterResource(R.drawable.healhub),
-            title = mutableStateOf (
-                mutableListOf(
-                    Question("Apakah anda mengalami gatal - gatal?"),
-                    Question("Apakah anda mengalami ruam kulit?"),
-                    Question("Apakah anda mengalami erupsi kulit?"),
-                    Question("Apakah anda mengalami bersin terus menerus?"),
-                    Question("Apakah anda mengalami menggigil?"),
-                    Question("Apakah anda mengalami demam?")
-                )
-            )
-        ),
-        Questions(
-            image = painterResource(R.drawable.healhub),
-            title = mutableStateOf (
-                mutableListOf(
-                    Question("Apakah anda mengalami gatal - gatal?"),
-                    Question("Apakah anda mengalami ruam kulit?"),
-                    Question("Apakah anda mengalami erupsi kulit?"),
-                    Question("Apakah anda mengalami bersin terus menerus?"),
-                    Question("Apakah anda mengalami menggigil?"),
-                    Question("Apakah anda mengalami demam?")
-                )
-            )
+        Questions (
+            image = painterResource(id = R.drawable.healhub),
+            title = "Select the sixth symptom that you have"
         ),
     )
     Surface (
@@ -121,12 +54,13 @@ fun QuestionOne(viewModel: QuestionViewModel = QuestionViewModel()) {
         modifier = Modifier.fillMaxSize().background(Color.White).padding(28.dp)
     ) {
         Spacer(modifier = Modifier.height(80.dp))
-        ImageCarousel(items = imageList, modifier = Modifier.fillMaxSize(), viewModel)
+        ImageCarousel(items = imageList, modifier = Modifier.fillMaxSize(), viewModel, navController)
     }
 }
 
+/*
 @Preview(showBackground = true)
 @Composable
-fun PreviewCarousel() {
-    QuestionOne()
-}
+fun PreviewCarousel(navController = ) {
+    QuestionOne(navController = navController)
+}*/

@@ -57,6 +57,20 @@ fun NormalTextComponent(value:String) {
 }
 
 @Composable
+fun NormalTextJustifiedComponent(value:String) {
+    Text(
+        text = value,
+        modifier = Modifier.fillMaxWidth().heightIn(min = 40.dp),
+        style = TextStyle(
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Normal
+        ),
+        color = colorResource(id = R.color.darkgreen),
+        textAlign = TextAlign.Justify
+    )
+}
+
+@Composable
 fun HeadingTextComponent(value:String) {
     Text(
         text = value,
@@ -67,6 +81,20 @@ fun HeadingTextComponent(value:String) {
         ),
         color = colorResource(id = R.color.darkgreen),
         textAlign = TextAlign.Center
+    )
+}
+
+@Composable
+fun HeadingPrimaryColor(value: String) {
+    Text(
+        text = value,
+        modifier = Modifier.fillMaxWidth().heightIn(),
+        style = TextStyle(
+            fontSize = 25.sp,
+            fontWeight = FontWeight.Bold
+        ),
+        color = colorResource(id = R.color.primaryColor),
+        textAlign = TextAlign.Start
     )
 }
 

@@ -45,10 +45,27 @@ class AuthRepository {
         })
     }
 
-    suspend fun inputPrediction(answersList: List<Int>, email: String): QuestionsResult {
+//    suspend fun inputPrediction(answersList: List<Int>, email: String): QuestionsResult {
+//        val inputPrediction = inputPrediction(inputData = answersList, email = email)
+//        return withContext(Dispatchers.IO) {
+//            api.predict(inputPrediction)
+//        }
+//    }
+
+    suspend fun inputPrediction(answersList: List<Int>, email: String): QuestionsResult? {
         val inputPrediction = inputPrediction(inputData = answersList, email = email)
         return withContext(Dispatchers.IO) {
-            api.predict(inputPrediction)
+            try {
+                val response = api.predict(inputPrediction).execute()
+                if (response.isSuccessful) {
+                    response.body()
+                } else {
+                    null // Handle unsuccessful response
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null // Handle failure
+            }
         }
     }
 }
