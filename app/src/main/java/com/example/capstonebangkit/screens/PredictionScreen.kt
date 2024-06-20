@@ -41,7 +41,7 @@ import com.example.capstonebangkit.data.model.PrognosisData
 import com.example.capstonebangkit.ui.auth.QuestionViewModel
 
 @Composable
-fun PredictionScreen() {
+fun PredictionScreen(label : String) {
     val scrollState = rememberScrollState()
     val prognosisList = listOf(
         PrognosisData (
@@ -352,7 +352,10 @@ fun PredictionScreen() {
     )
     Surface (
         color = Color.White,
-        modifier = Modifier.fillMaxSize().background(Color.White).padding(28.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+            .padding(28.dp)
     ) {
         Column (
             modifier = Modifier
@@ -376,7 +379,7 @@ fun PredictionScreen() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 HeadingTextComponent("Berdasarkan gejala yang anda miliki, anda mungkin mengalami : ")
-                HeadingTextComponent("Answer")
+                HeadingTextComponent(label)
             }
             Column(
                 modifier = Modifier
@@ -384,17 +387,21 @@ fun PredictionScreen() {
                     .padding(16.dp)
                     .verticalScroll(scrollState)
             ) {
-                HeadingPrimaryColor("Apa itu " + prognosisList[0].id + "?")
-                NormalTextJustifiedComponent(prognosisList[0].generalInfo)
-                Spacer(modifier = Modifier.height(20.dp))
-                HeadingPrimaryColor("Bagaimana cara mengatasinya?")
-                NormalTextJustifiedComponent(prognosisList[0].healingInfo)
-                Spacer(modifier = Modifier.height(20.dp))
-                HeadingPrimaryColor("Bagaimana cara mencegah?")
-                NormalTextJustifiedComponent(prognosisList[0].preventionInfo)
-                Spacer(modifier = Modifier.height(20.dp))
-                HeadingPrimaryColor("Kesimpulan")
-                NormalTextJustifiedComponent(prognosisList[0].conclusion)
+                for (prognosisData in prognosisList) {
+                    if (prognosisData.id == label) {
+                        HeadingPrimaryColor("Apa itu " + prognosisData.id + "?")
+                        NormalTextJustifiedComponent(prognosisData.generalInfo)
+                        Spacer(modifier = Modifier.height(20.dp))
+                        HeadingPrimaryColor("Bagaimana cara mengatasinya?")
+                        NormalTextJustifiedComponent(prognosisData.healingInfo)
+                        Spacer(modifier = Modifier.height(20.dp))
+                        HeadingPrimaryColor("Bagaimana cara mencegah?")
+                        NormalTextJustifiedComponent(prognosisData.preventionInfo)
+                        Spacer(modifier = Modifier.height(20.dp))
+                        HeadingPrimaryColor("Kesimpulan")
+                        NormalTextJustifiedComponent(prognosisData.conclusion)
+                    }
+                }
             }
             ButtonComponent("Back to Home") {
             }
@@ -403,8 +410,9 @@ fun PredictionScreen() {
     }
 }
 
+/*
 @Preview
 @Composable
 fun DefaultPreviewOfPredictionScreen() {
     PredictionScreen()
-}
+}*/

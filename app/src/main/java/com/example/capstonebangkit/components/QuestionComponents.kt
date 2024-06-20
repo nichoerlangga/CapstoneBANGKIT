@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,6 +36,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.capstonebangkit.R
 import com.example.capstonebangkit.data.local.SharedPreferencesManager
@@ -68,7 +70,7 @@ fun ImageCarousel(items: List<Questions>, modifier: Modifier = Modifier, viewMod
                 Question(items[page], answersList, selectedItems, page)
             } else {
 //                SubmitPage(viewModel,answersList, "byan@gmail.com")
-                SubmitPage(viewModel,answersList, email)
+                SubmitPage(viewModel,answersList, email, navHostController)
             }
         }
 
@@ -128,8 +130,8 @@ fun ImageCarousel(items: List<Questions>, modifier: Modifier = Modifier, viewMod
 
 
 @Composable
-fun SubmitPage(viewModel: QuestionViewModel,answersList: List<Int>, email: String) {
-    var showList by remember { mutableStateOf(false) }
+fun SubmitPage(viewModel: QuestionViewModel,answersList: List<Int>, email: String, navController: NavController) {
+    val predictionResult by viewModel.inputData.observeAsState()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -155,16 +157,10 @@ fun SubmitPage(viewModel: QuestionViewModel,answersList: List<Int>, email: Strin
             ButtonComponent(value = "Submit") {
                 viewModel.inputPrediction(answersList, email)
             }
-            if (showList) {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp)
-                ) {
-                    items(answersList) { item ->
-                        NormalTextComponent(item.toString())
-                        Divider(color = Color.Gray, thickness = 1.dp)
-                    }
+            predictionResult?.let { result ->
+                Text("Sign Up Successful! Token: ${result.data.id}")
+                LaunchedEffect(Unit) {
+                    navController.navigate("Prediction/${result.data.label}")
                 }
             }
             Spacer(modifier = Modifier.height(50.dp))
