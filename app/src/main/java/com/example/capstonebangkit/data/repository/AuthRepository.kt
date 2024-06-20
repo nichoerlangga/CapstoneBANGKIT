@@ -1,8 +1,12 @@
 package com.example.capstonebangkit.data.repository
 
+import android.util.Log
 import com.example.capstonebangkit.data.model.*
 import com.example.capstonebangkit.data.remote.RetrofitInstance
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
@@ -67,5 +71,19 @@ class AuthRepository {
                 null // Handle failure
             }
         }
+    }
+
+    fun fetchHistory(): Flow<List<HistoryData>> = flow {
+        val response: Response<HistoryResponse> = api.getPredictionHistories()
+        if (response.isSuccessful) {
+            response.body()?.let { historyResponse ->
+                emit(historyResponse.data.map { wrapper -> wrapper.history })
+            } ?: emit(emptyList())
+        } else {
+            emit(emptyList())
+        }
+    }.catch { e ->
+        e.printStackTrace()
+        emit(emptyList())
     }
 }

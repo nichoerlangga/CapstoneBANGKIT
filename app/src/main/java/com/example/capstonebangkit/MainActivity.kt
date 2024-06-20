@@ -1,5 +1,6 @@
 package com.example.capstonebangkit
 
+import PredictionHistoryScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -43,9 +44,11 @@ fun AppNavigation(navController: NavHostController, authViewModel: AuthViewModel
             arguments = listOf(navArgument("id") { type = NavType.StringType })
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getString("id")
-            PredictionScreen(id ?: "")
+            PredictionScreen(id ?: "", navController)
         }
-
+        composable("predictionHistory") {
+            PredictionHistoryScreen(navController = navController) // tambahkan viewModel disini
+        }
     }
 }
 

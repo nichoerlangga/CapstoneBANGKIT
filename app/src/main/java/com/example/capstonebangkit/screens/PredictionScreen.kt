@@ -41,7 +41,7 @@ import com.example.capstonebangkit.data.model.PrognosisData
 import com.example.capstonebangkit.ui.auth.QuestionViewModel
 
 @Composable
-fun PredictionScreen(label : String) {
+fun PredictionScreen(label : String, navController: NavController) {
     val scrollState = rememberScrollState()
     val prognosisList = listOf(
         PrognosisData (
@@ -859,14 +859,14 @@ fun PredictionScreen(label : String) {
     """
         )
     )
-    Surface (
+    Surface(
         color = Color.White,
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
             .padding(28.dp)
     ) {
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.SpaceBetween,
@@ -880,7 +880,7 @@ fun PredictionScreen(label : String) {
                     .height(200.dp)
             )
             Spacer(modifier = Modifier.height(20.dp))
-            Column (
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(20.dp),
@@ -889,6 +889,10 @@ fun PredictionScreen(label : String) {
             ) {
                 HeadingTextComponent("Berdasarkan gejala yang anda miliki, anda mungkin mengalami : ")
                 HeadingTextComponent(label)
+            }
+            // Add the ButtonComponent here
+            ButtonComponent("Lihat Riwayat Prediksi") {
+                navController.navigate("predictionHistory")
             }
             Column(
                 modifier = Modifier
@@ -912,10 +916,11 @@ fun PredictionScreen(label : String) {
                     }
                 }
             }
-            ButtonComponent("Back to Home") {
+            // Add the ButtonComponent here
+            ButtonComponent("Lihat Riwayat Prediksi") {
+                navController.navigate("predictionHistory")
             }
         }
-
     }
 }
 
