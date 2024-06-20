@@ -106,6 +106,7 @@ package com.example.capstonebangkit.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -113,7 +114,9 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.capstonebangkit.R
@@ -183,7 +186,18 @@ fun SignUpScreen(viewModel: AuthViewModel = androidx.lifecycle.viewmodel.compose
 //                    Text("Sign Up Failed")
 //                }
             }
-
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "Have got an account?",
+                color = colorResource(R.color.primaryColor),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 28.dp)
+                    .clickable {
+                        navController.navigate("login")
+                    },
+                textAlign = TextAlign.Center
+            )
         }
     }
 }
