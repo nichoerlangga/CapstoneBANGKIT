@@ -59,7 +59,7 @@ fun HomeScreen(navController: NavController) {
                 }
                 Spacer(modifier = Modifier.height(12.dp))
                 ButtonComponent("Logout") {
-                    navController.navigate("logout")
+                    navController.navigate("login")
                 }
             }
         }
